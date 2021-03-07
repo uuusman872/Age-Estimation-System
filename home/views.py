@@ -11,3 +11,5 @@ def services(request):
 def services1(request):
     return render(request,"services1.html")
 
+def suggest(request):
+    return render(request,"suggestion.html")

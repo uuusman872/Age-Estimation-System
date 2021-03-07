@@ -426,20 +426,18 @@ welcome
 
 .welcome-area .header-text {
   position: absolute;
-  top: 50%;
+  top: 45%;
   transform: translateY(-55%);
   text-align: center;
   width: 100%;
 }
-
 .welcome-area .header-text h1 {
   font-weight: 500;
-  font-size: 36px;
-  line-height: 54px;
-  letter-spacing: 1.4px;
+  font-size: 28px;
+  line-height: 50px;
+  letter-spacing: 0.4px;
   margin-bottom: 30px;
-  color: #fff;
-}
+  color: #fff;}
 
 .welcome-area .header-text p {
   font-weight: 400;
@@ -570,25 +568,24 @@ features
 }
 
 .features-small-item p {
-  font-weight: 400;
-  font-size: 13px;
+  font-weight: 600;
+  font-size: 14px;
   color: #777;
-  letter-spacing: 0.5px;
-  line-height: 25px;
+  letter-spacing: 1.5px;
   position: relative;
   z-index: 2;
 }
-
 .features-small-item a {
-  float: right;
+
   position: relative;
   z-index: 2;
 }
 
 .home-feature {
   padding-bottom: 0px;
-  padding-top: 30px;
-  margin-top: -220px;
+  padding-top: 00px;
+  margin: -360px auto auto auto;
+  width: 50%;
   z-index: 9;
 }
 
@@ -597,6 +594,7 @@ features
     padding-bottom: 0px;
     padding-top: 0px;
     margin-top: 0px;
+    width: 100%;
   }
 }
 
