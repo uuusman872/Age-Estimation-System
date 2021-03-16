@@ -11,8 +11,13 @@
             <div id="page-inner">
                 <div class="row">
                     <div class="col-md-12">
-                     <h2>Doctor Dashboard</h2>   
-                        <h5>Welcome Jhon Deo , Love to see you back. </h5>
+                    {% if user.is_doctor == True %}
+                    <h2>Doctor Dashboard</h2>   
+                    {% else %}
+                    <h2>Patient Dashboard</h2> 
+                    {% endif %}
+                     
+                        <h4>Welcome {{user.first_name}} {{user.last_name}}, Love to see you back. </h4>
                     </div>
                 </div>              
                  <!-- /. ROW  -->

@@ -41,9 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'home',
     'dashboard',
-    'accounts'
+    'accounts',
+    'widget_tweaks'
 ]
-
+AUTH_USER_MODEL = 'accounts.CustomUser'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -103,7 +104,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 LOGIN_URL= "/accounts/login"
 LOGIN_REDIRECT_URL= "/"
 # Internationalization
@@ -136,4 +136,3 @@ STATICFILES_DIRS = [
 #DataFlair #User_Uploaded_Files
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
-

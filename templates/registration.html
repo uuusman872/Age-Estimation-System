@@ -34,10 +34,14 @@
                 </div>
          
 
+         
+            <a href="{% url 'doctor_register' %}" class="btn btn-primary"> Register as Doctor </a>
+              <a href="{% url 'patient_register' %}" class="main-button">  Register as Patient </a>
+         
                     <!-- ***** Contact Text End ***** -->
 
                 <!-- ***** Contact Form Start ***** -->
-                <div class="center-div col-lg-8 col-md-6 col-sm-12 ">
+                {% comment %} <div class="center-div col-lg-8 col-md-6 col-sm-12 ">
                     <div class="contact-form">
                         <form id="contact" action="registration" method="POST">
                         {% csrf_token %}
@@ -70,8 +74,33 @@
                               <fieldset>
                                 <input name="c_password" type="password" class="form-control" id="email" placeholder="Confirm Password" required="">
                               </fieldset>
+                            </div> {% endcomment %}
+                            {% comment %} <div class="col-lg-6 col-md-12 col-sm-12">
+                              <fieldset>
+                                <input name="cnic" type="number" class="form-control" id="email" placeholder=" cnic" required="">
+                              </fieldset>
                             </div>
-                           {% if messages %}
+                            <div class="col-lg-6 col-md-12 col-sm-12">
+                              <fieldset>
+                                <input name="mobile" type="phone" class="form-control" id="email" placeholder="mobile " required="">
+                              </fieldset>
+                            </div>
+                            <div class="col-lg-6 col-md-12 col-sm-12">
+                              <fieldset>
+                                <input name="address" type="Address" class="form-control" id="email" placeholder="address " required="">
+                              </fieldset>
+                            </div>
+                            <div class="col-lg-6 col-md-12 col-sm-12">
+                              <fieldset>
+                                <input name="p_img" type="image" class="form-control" id="email" placeholder="p_img " required="">
+                              </fieldset>
+                            </div>
+                            <div class="col-lg-6 col-md-12 col-sm-12">
+                              <fieldset>
+                                <input name="degree" type="image" class="form-control" id="email" placeholder="degree" required="">
+                              </fieldset>
+                            </div> {% endcomment %}
+                           {% comment %} {% if messages %}
                   {% for message in messages %}
                     <div class= "alert text-center alert-{{ message.tags }} alert-dismissible" role="alert">
                     <button type="button" class="close" data-dismiss="alert" > <span aria-hidden="hidden"> &times;</span> </button>
@@ -87,8 +116,9 @@
                           </div>
                         </form>
                     </div>
-                </div>
+                </div> {% endcomment %}
                 <!-- ***** Contact Form End ***** -->
+                
             </div>
         </div>
     </section>

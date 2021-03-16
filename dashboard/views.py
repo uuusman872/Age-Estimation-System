@@ -4,6 +4,16 @@ from .models import patient
 from .forms import PatientCreate
 
 # Create your views here.
+def user_notallowed(redirect_to):
+    """ This decorator kicks authenticated users out of a view """ 
+    def _method_wrapper(view_method):
+        def _arguments_wrapper(request, *args, **kwargs):
+            if request.user.is_doctor:
+                return HttpResponse("You are not allowed to view this page") 
+            return view_method(request, *args, **kwargs)
+        return _arguments_wrapper
+    return _method_wrapper
+
 
 @login_required
 def doctor_dashboard(request):
@@ -50,6 +60,7 @@ def doctor_table(request):
     return render(request,"doctor/doctor_table.html" , context)
 
 @login_required
+@user_notallowed('/')
 def age_estimation(request):
     return render(request,"doctor/age-estimation.html")
 

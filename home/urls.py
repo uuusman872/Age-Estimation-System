@@ -22,7 +22,6 @@ urlpatterns = [
     path('', views.index, name="home"),
     path('index', views.index, name="home"),
     path('services', views.services, name="services"),
-    path('services1', views.services1, name="services1"),
     path('suggestion', views.suggest, name="suggestion"),
   
 ]
