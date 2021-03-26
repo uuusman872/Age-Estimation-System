@@ -30,7 +30,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
+MAPBOX_KEY = "pk.eyJ1IjoibXViYXNoYXIxMiIsImEiOiJja21wMTFxaTEyYTA1Mm90NGEzdzU4ODloIn0.1S7BpttqTaJc18RJsps16A"
 INSTALLED_APPS = [
    
     'django.contrib.admin',
@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'home',
     'dashboard',
     'accounts',
-    'widget_tweaks'
+    'widget_tweaks',
+    'mapbox_location_field',
+
 ]
 AUTH_USER_MODEL = 'accounts.CustomUser'
 MIDDLEWARE = [
@@ -124,6 +126,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+GOOGLE_MAPS_API_KEY = 'AIzaSyADxsCaoUK0d-7Evp1bCFn8V6Cxm-ofE6Y'
 
 
 #addded dirs for static files manaually
@@ -136,3 +139,10 @@ STATICFILES_DIRS = [
 #DataFlair #User_Uploaded_Files
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
+# For Django Email Backend
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'mubasharazad2@gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_PASSWORD = ''  # os.environ['password_key'] suggested

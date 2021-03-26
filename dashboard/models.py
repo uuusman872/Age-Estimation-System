@@ -1,9 +1,11 @@
 from django.db import models
 from datetime import datetime
 from django.utils import timezone
+from accounts.models import CustomUser
 # Create your models here.
 #DataFlair Models
-class patient(models.Model):
+class PatientRecord(models.Model):
+    user= models.ForeignKey(CustomUser,  on_delete=models.CASCADE, null= True, blank= True)
     name = models.CharField(max_length = 50, blank=False)
     image = models.ImageField()
     desc = models.TextField(max_length = 100, default='No Description')

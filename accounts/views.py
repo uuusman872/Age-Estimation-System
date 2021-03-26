@@ -2,12 +2,19 @@ from django.shortcuts import render,redirect , HttpResponse
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.views.generic import CreateView
-from .models import Doctor, Patient , CustomUser
-from .forms import DoctorForm ,PatientForm
+from .models import Doctor, Patient , CustomUser,SomeLocationModel
+from .forms import DoctorForm ,PatientForm ,ProfileForm
 from django.utils.decorators import method_decorator
 from django.contrib.auth.forms import AuthenticationForm
-
-
+from .forms import LocationForm
+from django.core.mail import EmailMessage
+from django.views.generic import View
+from django import forms
+from django.utils.encoding import force_bytes, force_text, DjangoUnicodeDecodeError
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.urls import reverse
+from .utilts import account_activation_token
 
 
 # Create your views here.
@@ -33,14 +40,14 @@ def login(request):
             user = auth.authenticate(username=username, password=password)
             if user is not None:
                 if user.is_approve == False:
-                    return HttpResponse("noora")
+                    messages.warning(request,"Wait for Account Approval!")
                 else:
                     auth.login(request,user)
                     return redirect('/')
             else:
-                messages.error(request,"Invalid username or password")
+                messages.warning(request,"Invalid username or password")
         else:
-                messages.error(request,"Invalid username or password")
+                messages.warning(request,"Invalid username or password")
     return render(request, 'login.html',
     context={'form':AuthenticationForm()})
     
@@ -95,11 +102,69 @@ def registration(request):
 class doctor_register(CreateView):
     model = CustomUser
     form_class = DoctorForm
+    mymap = LocationForm()
+    extra_context={'mymap': mymap}
     template_name = "doctor_register.html"
+
+    
 
     def form_valid(self, form):
         user = form.save()
-        return HttpResponse (" you need approvement from admin noob admi")
+        # mmmap = SomeLocationModel.objects.create(user=user)
+        # mmmap.location = form.cleaned_data.get('location')
+        # mmmap.save()
+        # if self.request.method == 'POST':
+        #     mmmap= SomeLocationModel.objects.create(user=user)
+        #     mmmap.location = self.form.cleaned_data.get('location')
+        #     mmmap.save()
+
+        uidb64=urlsafe_base64_encode(force_bytes(user.pk))
+
+        domain= get_current_site(self.request).domain
+
+        link = reverse('activate', kwargs={
+                               'uidb64': uidb64, 'token': account_activation_token.make_token(user)})
+        
+        activate_url='http://'+domain+link         
+
+        email_body='Hi' + user.username + " Please use this link to verify account\n "+ activate_url
+        
+        email_subject="Activate your account"
+
+        email = EmailMessage(
+            email_subject,
+            email_body,
+            'noreply@example.com',
+            [user.email],
+        )
+
+
+        email.send(fail_silently=False)
+        messages.warning(self.request,"Account Successfully Created!")
+        return redirect('login')
+
+class VerificationView(View):
+    def get(self,request,uidb64, token):
+        try:
+            id = force_text(urlsafe_base64_decode(uidb64))
+            user = CustomUser.objects.get(pk=id)
+
+            if not account_activation_token.check_token(user, token):
+                messages.warning(request, 'User already activated!' )
+                return redirect('login'+'?message='+'User already activated')
+
+            if user.is_active:
+                return redirect('login')
+            user.is_active = True
+            user.save()
+
+            messages.success(request, 'Account activated successfully!\n Please wait for admin approval.' )
+            return redirect('login')
+
+        except Exception as ex:
+            pass
+
+        return redirect('login')
 
         
 @method_decorator(login_excluded('/'), name='dispatch')
@@ -119,3 +184,12 @@ def logout(request):
     return redirect("/")
 
 
+def profile(request):
+    user= request.user
+    form = ProfileForm(instance=user)
+    if request.method == 'POST':
+        form= ProfileForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+    context = { 'form' : form}
+    return render(request,"doctor/profile.html" ,context)

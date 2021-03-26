@@ -1,6 +1,6 @@
 from django.shortcuts import render,HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
-from .models import patient
+from .models import PatientRecord
 from .forms import PatientCreate
 
 # Create your views here.
@@ -17,7 +17,7 @@ def user_notallowed(redirect_to):
 
 @login_required
 def doctor_dashboard(request):
-    patients=patient.objects.all()
+    patients=PatientRecord.objects.all()
     context = {
         'patients' : patients
     }
@@ -28,7 +28,9 @@ def doctor_form(request):
     if request.method == 'POST':
         form=PatientCreate(request.POST , request.FILES)
         if form.is_valid():
-            form.save()
+            instance=form.cleaned_data
+            instance.user = request.user
+            instance.save()
             return redirect('doctor_table')
         else:
             return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'index'}}">reload</a>""")
@@ -39,8 +41,8 @@ def doctor_form(request):
 def update(request, patient_id):
     patient_id = int(patient_id)
     try:
-        get_patient = patient.objects.get(id = patient_id)
-    except patient.DoesNotExist:
+        get_patient = PatientRecord.objects.get(id = patient_id)
+    except PatientRecord.DoesNotExist:
         return redirect('doctor_table')
     form = PatientCreate( instance = get_patient)
     if request.method == 'POST':
@@ -53,7 +55,7 @@ def update(request, patient_id):
         
 @login_required
 def doctor_table(request):
-    patients=patient.objects.all()
+    patients=PatientRecord.objects.all()
     context = {
         'patients' : patients
     }
@@ -67,8 +69,8 @@ def age_estimation(request):
 def delete(request, patient_id):
     patient_id = int(patient_id)
     try:
-        get_patient = patient.objects.get(id = patient_id)
-    except patient.DoesNotExist:
+        get_patient = PatientRecord.objects.get(id = patient_id)
+    except PatientRecord.DoesNotExist:
         return redirect('doctor_table')
     get_patient.delete()
     return redirect('doctor_table')

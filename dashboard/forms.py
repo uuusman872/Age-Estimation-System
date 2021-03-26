@@ -1,8 +1,8 @@
 from django import forms
-from .models import patient
+from .models import PatientRecord
 #DataFlair
 class PatientCreate(forms.ModelForm):
     class Meta:
-        model = patient
+        model = PatientRecord
         fields = '__all__'
  

@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
-
+{% load mapbox_location_field_tags %} 
+{% location_field_includes %}
+{% include_jquery %}
 {% block title %} Services {% endblock title %}
 {% block nav %}
                    
@@ -84,8 +86,10 @@
         <small class="form-text text-muted">{{ field.help_text }}</small>
       {% endif %}
     </div>
+    
   {% endfor %}
-
+      {{mymap}}
+      {{ mymap.media }}
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
@@ -103,4 +107,5 @@
               </section>
 
 
+            
 {% endblock body %}
