@@ -3,7 +3,7 @@ from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.views.generic import CreateView
 from .models import Doctor, Patient , CustomUser,SomeLocationModel
-from .forms import DoctorForm ,PatientForm ,ProfileForm
+from .forms import DoctorForm ,PatientForm ,ProfileForm, LocationForm
 from django.utils.decorators import method_decorator
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import LocationForm
@@ -102,21 +102,41 @@ def registration(request):
 class doctor_register(CreateView):
     model = CustomUser
     form_class = DoctorForm
-    mymap = LocationForm()
+    mymap = LocationForm
     extra_context={'mymap': mymap}
     template_name = "doctor_register.html"
 
-    
-
     def form_valid(self, form):
-        user = form.save()
-        # mmmap = SomeLocationModel.objects.create(user=user)
-        # mmmap.location = form.cleaned_data.get('location')
-        # mmmap.save()
+        try:
+            user = form.save()
+            loc = self.request.POST["location"]
+            mm = SomeLocationModel.objects.create(user=user, location=loc)
+            print("The Location got is ", self.request.POST["location"])
+            if mm.is_valid():
+                mm.save()
+
+
+            
+        except Exception as ex:
+            pass
+    
+        
+        # mymap = LocationForm()
+        # try:
+        #     mymap = LocationForm(self.request.POST or None)
+        #     mymap.location= form.cleaned_data.get('location')
+        #     mymap= SomeLocationModel.objects.create(user=user)
+        #     print(mymap.cleaned_data.get('location'))
+        #     mymap.save()
+        # except Exception as ex:
+        #    pass
         # if self.request.method == 'POST':
         #     mmmap= SomeLocationModel.objects.create(user=user)
         #     mmmap.location = self.form.cleaned_data.get('location')
         #     mmmap.save()
+
+
+
 
         uidb64=urlsafe_base64_encode(force_bytes(user.pk))
 

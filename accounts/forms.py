@@ -24,14 +24,12 @@ class ProfileForm(ModelForm):
         ]
     
 class LocationForm(forms.ModelForm):
-    location = LocationField()
+    
     class Meta:  
         model = SomeLocationModel 
         fields = [
             'location'
         ]
-        
-
 
 class DoctorForm(UserCreationForm):
     first_name = forms.CharField(required=True)

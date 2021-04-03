@@ -23,4 +23,4 @@ class Patient(models.Model):
 
 class SomeLocationModel(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
-    location = LocationField(map_attrs={"rotate": True, "marker_color": "blue",})
+    location = LocationField(map_attrs={"rotate": True, "marker_color": "blue", })
